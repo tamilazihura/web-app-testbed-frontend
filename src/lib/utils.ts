@@ -1,7 +1,7 @@
 import { Table } from "@/lib/schemas";
 
-export const downloadCSV = (
-  data: Record<string, unknown>[],
+export const downloadCSV = <T extends Record<string, unknown>>(
+  data: T[],
   fileName = "download.csv",
 ) => {
   if (!data || data.length === 0) return;

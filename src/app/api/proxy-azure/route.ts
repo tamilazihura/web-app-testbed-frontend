@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const AZURE_URL =
   "https://yixuan-4039-testllmdatage-kbdzj.canadaeast.inference.ml.azure.com/score";
-const API_KEY = process.env.AZURE_API_KEY!; // set this in .env.local
+const API_KEY = process.env.AZURE_API_KEY!; // set this in .env.prod
 
 export async function POST(req: NextRequest) {
   try {

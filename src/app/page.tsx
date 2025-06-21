@@ -8,7 +8,7 @@ import { DataTable } from "@/ui/DataTable";
 import { cleanUndefined } from "@/lib/utils";
 
 export default function Home() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState<Record<string, unknown>>({});
   const [loading, setLoading] = useState(false);
 
   return (
@@ -49,7 +49,11 @@ export default function Home() {
             </div>
           ) : (
             Object.entries(data).map(([key, value]) => (
-              <DataTable key={key} label={key} data={value as object[]} />
+              <DataTable
+                key={key}
+                label={key}
+                data={value as Record<string, unknown>[]}
+              />
             ))
           )}
         </div>

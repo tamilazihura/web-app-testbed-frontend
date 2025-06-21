@@ -9,12 +9,12 @@ import {
 } from "@tanstack/react-table";
 import { downloadCSV } from "@/lib/utils";
 
-type DataTableProps<T extends object = Record<string, unknown>> = {
+type DataTableProps<T extends Record<string, unknown>> = {
   data: T[];
   label: string;
 };
 
-export function DataTable<T extends object>({
+export function DataTable<T extends Record<string, unknown>>({
   data,
   label,
 }: DataTableProps<T>) {
