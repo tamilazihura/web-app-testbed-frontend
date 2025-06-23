@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const AZURE_URL =
   "https://yixuan-4039-testllmdatage-kbdzj.canadaeast.inference.ml.azure.com/score";
-const API_KEY = process.env.AZURE_API_KEY!; // set this in .env.prod
+const API_KEY = process.env.AZURE_API_KEY!;
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const data = await azureRes.json();
 
     const response = NextResponse.json(data);
-    response.headers.set("Access-Control-Allow-Origin", "*"); // Or your frontend origin
+    response.headers.set("Access-Control-Allow-Origin", "*"); 
     response.headers.set("Access-Control-Allow-Credentials", "true");
     return response;
   } catch (err) {
