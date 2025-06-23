@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0-alpha.13",
+    "@azure/functions": "^4.7.3-beta.0",
     "@tanstack/react-form": "^1.11.3",
     "@tanstack/react-query": "^5.77.2",
     "@tanstack/react-table": "^8.21.3",
