@@ -33,3 +33,24 @@ export async function callAzureEndpoint(data: {
     }
   }
 }
+
+export async function uploadCSV(csv: string, filename: string) {
+  const blob = new Blob([csv], { type: "text/csv" });
+  const file = new File([blob], filename, { type: "text/csv" });
+
+  const response = await fetch("/api/upload-csv", {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/csv",
+      "x-filename": filename,
+    },
+    body: file,
+  });
+
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(result.error || "Upload failed");
+  }
+
+  return result;
+}

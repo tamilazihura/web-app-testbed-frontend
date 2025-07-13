@@ -1,10 +1,7 @@
 import { Table } from "@/lib/schemas";
 
-export const downloadCSV = <T extends Record<string, unknown>>(
-  data: T[],
-  fileName = "download.csv",
-) => {
-  if (!data || data.length === 0) return;
+export const generateCSV = <T extends Record<string, unknown>>(data: T[]): string | null => {
+  if (!data || data.length === 0) return null;
 
   const headers = Object.keys(data[0]);
 
@@ -13,19 +10,11 @@ export const downloadCSV = <T extends Record<string, unknown>>(
     ...data.map((item) => headers.map((key) => item[key])),
   ]
     .map((row) =>
-      row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(","),
+      row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(",")
     )
     .join("\n");
 
-  const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  return csvString;
 };
 
 export const cleanUndefined = (obj: {
