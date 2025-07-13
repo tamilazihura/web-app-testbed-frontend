@@ -7,7 +7,7 @@ import {
   getPaginationRowModel,
   PaginationState,
 } from "@tanstack/react-table";
-import { downloadCSV, generateCSV } from "@/lib/utils";
+import { generateCSV } from "@/lib/utils";
 import { uploadCSV } from "@/lib/api";
 
 type DataTableProps<T extends Record<string, unknown>> = {
@@ -49,6 +49,39 @@ export function DataTable<T extends Record<string, unknown>>({
       pagination,
     },
   });
+
+  const triggerDownload = (csvString: string, fileName = "download.csv") => {
+    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  };
+
+  const handleDownload = () => {
+    const csv = generateCSV(data);
+    if (csv) {
+      triggerDownload(csv, `${label}.csv`);
+    }
+  };
+
+  const handleUpload = async () => {
+    const csv = generateCSV(data);
+    if (!csv) return;
+
+    try {
+      const result = await uploadCSV(csv, `${label}.csv`);
+      console.log("Upload successful:", result);
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+  };
 
   const triggerDownload = (csvString: string, fileName = "download.csv") => {
     const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
@@ -154,9 +187,17 @@ export function DataTable<T extends Record<string, unknown>>({
 
         <button
           onClick={handleDownload}
+          onClick={handleDownload}
           className="py-2 px-6 bg-blue-600 text-white font-medium rounded hover:bg-blue-800 shadow-lg"
         >
           Download CSV
+        </button>
+
+        <button
+          onClick={handleUpload}
+          className="py-2 px-6 bg-blue-600 text-white font-medium rounded hover:bg-blue-800 shadow-lg"
+        >
+          Upload CSV
         </button>
 
         <button
