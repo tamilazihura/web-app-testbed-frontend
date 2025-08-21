@@ -34,7 +34,7 @@ export async function callAzureEndpoint(data: {
   }
 }
 
-export async function uploadCSV(csv: string, filename: string) {
+export async function uploadCSV(csv: string, filename: string, folder: string) {
   const blob = new Blob([csv], { type: "text/csv" });
   const file = new File([blob], filename, { type: "text/csv" });
 
@@ -43,6 +43,7 @@ export async function uploadCSV(csv: string, filename: string) {
     headers: {
       "Content-Type": "text/csv",
       "x-filename": filename,
+      ...(folder ? { "x-folder": folder } : {}),
     },
     body: file,
   });

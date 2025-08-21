@@ -76,7 +76,7 @@ export function DataTable<T extends Record<string, unknown>>({
     if (!csv) return;
 
     try {
-      const result = await uploadCSV(csv, `${label}.csv`);
+      const result = await uploadCSV(csv, `${label}.csv`, label);
       console.log("Upload successful:", result);
     } catch (error) {
       console.error("Upload failed:", error);

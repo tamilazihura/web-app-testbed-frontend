@@ -1,5 +1,5 @@
-import { BlobServiceClient } from '@azure/storage-blob';
-import { NextRequest, NextResponse } from 'next/server';
+import { BlobServiceClient } from "@azure/storage-blob";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,19 +9,25 @@ export async function POST(req: NextRequest) {
     const connectionString = process.env.CONNECTION_STRING!;
     const containerName = process.env.CONTAINER_NAME!;
 
-    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+    const blobServiceClient =
+      BlobServiceClient.fromConnectionString(connectionString);
     const containerClient = blobServiceClient.getContainerClient(containerName);
 
     const filename = req.headers.get("x-filename") || `${Date.now()}.csv`;
-    const blockBlobClient = containerClient.getBlockBlobClient(filename);
+    const folder = req.headers.get("x-folder") || "";
+    const blobName = folder ? `${folder}/${filename}` : filename;
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
     await blockBlobClient.uploadData(buffer, {
-      blobHTTPHeaders: { blobContentType: 'text/csv' },
+      blobHTTPHeaders: { blobContentType: "text/csv" },
     });
 
-    return NextResponse.json({ message: 'CSV file uploaded successfully', filename });
+    return NextResponse.json({
+      message: "CSV file uploaded successfully",
+      filename: blobName,
+    });
   } catch (error) {
-    console.error('CSV Upload error:', error);
-    return NextResponse.json({ error: 'CSV upload failed' }, { status: 500 });
+    console.error("CSV Upload error:", error);
+    return NextResponse.json({ error: "CSV upload failed" }, { status: 500 });
   }
 }

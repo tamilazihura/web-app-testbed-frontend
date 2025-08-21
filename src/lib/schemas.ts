@@ -7,7 +7,6 @@ export const InputColumnSchema = z
     is_primary_key: z.boolean(),
     is_unique: z.boolean(),
     foreign_key: z.string().optional(),
-    relationship: z.string().optional(),
     min: z.number().optional(),
     max: z.number().optional(),
     example: z.string().optional(),
@@ -19,15 +18,6 @@ export const InputColumnSchema = z
           path: ["foreign_key"],
           message:
             "A foreign key reference is required when the data type is 'foreign_key'.",
-          code: z.ZodIssueCode.custom,
-        });
-      }
-
-      if (!data.relationship?.trim()) {
-        ctx.addIssue({
-          path: ["relationship"],
-          message:
-            "Specify the relationship when the data type is 'foreign_key'.",
           code: z.ZodIssueCode.custom,
         });
       }

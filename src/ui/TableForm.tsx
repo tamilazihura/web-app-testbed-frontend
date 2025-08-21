@@ -21,7 +21,6 @@ export default function TableForm({
               col_name: "ID",
               data_type: "int",
               foreign_key: undefined,
-              relationship: undefined,
               is_primary_key: true,
               is_unique: false,
               min: undefined,
@@ -312,84 +311,49 @@ export default function TableForm({
                                           </>
                                         )}
 
-                                      {/* Foreign key + relationship */}
+                                      {/* Foreign key */}
                                       {tables.length > 1 &&
                                         typeField.state.value ===
                                           "foreign_key" && (
-                                          <>
-                                            <form.Field
-                                              name={`tables[${tableIndex}].fields[${fieldIndex}].foreign_key`}
-                                            >
-                                              {(foreignKeyField) => (
-                                                <select
-                                                  value={
-                                                    foreignKeyField.state.value
-                                                  }
-                                                  onChange={(e) =>
-                                                    foreignKeyField.handleChange(
-                                                      e.target.value,
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select foreign key target
-                                                  </option>
-                                                  {tables
-                                                    .filter(
-                                                      (table, i) =>
-                                                        table.name &&
-                                                        i !== tableIndex,
-                                                    )
-                                                    .flatMap((table) =>
-                                                      table.fields.map(
-                                                        (field) => (
-                                                          <option
-                                                            key={`${table.name}.${field.col_name}`}
-                                                            value={`${table.name}.${field.col_name}`}
-                                                          >
-                                                            {table.name}.
-                                                            {field.col_name}
-                                                          </option>
-                                                        ),
+                                          <form.Field
+                                            name={`tables[${tableIndex}].fields[${fieldIndex}].foreign_key`}
+                                          >
+                                            {(foreignKeyField) => (
+                                              <select
+                                                value={
+                                                  foreignKeyField.state.value
+                                                }
+                                                onChange={(e) =>
+                                                  foreignKeyField.handleChange(
+                                                    e.target.value,
+                                                  )
+                                                }
+                                              >
+                                                <option value="">
+                                                  Select foreign key target
+                                                </option>
+                                                {tables
+                                                  .filter(
+                                                    (table, i) =>
+                                                      table.name &&
+                                                      i !== tableIndex,
+                                                  )
+                                                  .flatMap((table) =>
+                                                    table.fields.map(
+                                                      (field) => (
+                                                        <option
+                                                          key={`${table.name}.${field.col_name}`}
+                                                          value={`${table.name}.${field.col_name}`}
+                                                        >
+                                                          {table.name}.
+                                                          {field.col_name}
+                                                        </option>
                                                       ),
-                                                    )}
-                                                </select>
-                                              )}
-                                            </form.Field>
-                                            <form.Field
-                                              name={`tables[${tableIndex}].fields[${fieldIndex}].relationship`}
-                                            >
-                                              {(relationshipField) => (
-                                                <select
-                                                  value={
-                                                    relationshipField.state
-                                                      .value
-                                                  }
-                                                  onChange={(e) =>
-                                                    relationshipField.handleChange(
-                                                      e.target.value,
-                                                    )
-                                                  }
-                                                >
-                                                  <option value="">
-                                                    Select relationship
-                                                  </option>
-                                                  <option value="one-to-one">
-                                                    One to one
-                                                  </option>
-                                                  <option value="one-to-many">
-                                                    One to many
-                                                  </option>
-                                                  <option value="many-to-one">
-                                                    Many-to-one
-                                                  </option>
-                                                  <option value="many-to-many">
-                                                    Many-to-many
-                                                  </option>
-                                                </select>
-                                              )}
-                                            </form.Field>
-                                          </>
+                                                    ),
+                                                  )}
+                                              </select>
+                                            )}
+                                          </form.Field>
                                         )}
                                     </div>
                                   )}
